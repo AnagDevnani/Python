@@ -2,27 +2,23 @@ import math
 
 # Information
 print('''
---------------------------------------------------------------------
-Gauss-Seidel Calculator v0.3 by Anag Devnani
+----------------------------------------------------------------------------
+Gauss-Seidel Calculator v0.2 by Anag Devnani
 Created on 26/10/2023
 
-This is only valid for 3 System of Equations
-
-It Approximates up to a Difference of 0.001
+This is only valid for 3 System of Equations (Working on a way to add more)
 
 If required, we can print the values of x, y & z at every iteration
---------------------------------------------------------------------
+
+Changenotes:-
+v0.2 (30/10/23): Converted Approximation Value to User Input, Optimised Code
+v0.3 (X/11/23): Added option to print x, y, z after every iteration
+----------------------------------------------------------------------------
 ''')
 # Input of coeffecients
-String1 = str(input("Enter Coefficients of 1st Equation Seperated by Space: "))
-String2 = str(input("Enter Coefficients of 2nd Equation Seperated by Space: "))
-String3 = str(input("Enter Coefficients of 3rd Equation Seperated by Space: "))
-List1=String1.split()
-List1=[int(i) for i in List1]
-List2=String2.split()
-List2=[int(i) for i in List2]
-List3=String3.split()
-List3=[int(i) for i in List3]
+List1 = list(map(int, input("Enter Coefficients of 1st Equation Seperated by Space: ").split()))
+List2 = list(map(int, input("Enter Coefficients of 2nd Equation Seperated by Space: ").split()))
+List3 = list(map(int, input("Enter Coefficients of 3rd Equation Seperated by Space: ").split()))
 
 # Tests for Rearrangement of Equations
 Line1=0
@@ -52,13 +48,9 @@ if Line1==0 or Line2==0 or Line3==0:
     exit()
 
 # Iterations
-Iteration_No=0
-x_old=0
-x_new=0
-y_old=0
-y_new=0
-z_old=0
-z_new=0
+Iteration_No=x_old=x_new=y_old=y_new=z_old=z_new=0
+ApproxVal=float(input("Enter Value to Approximate Upto: "))
+calc = []
 while True:  # Incomplete # Comparing approx value to 4 Digits
     Iteration_No=Iteration_No+1
     x_old=x_new
@@ -67,11 +59,17 @@ while True:  # Incomplete # Comparing approx value to 4 Digits
     x_new=(1/Line1[0])*(Line1[3]-(Line1[1]*y_old)-(Line1[2]*z_old))
     y_new=(1/Line2[1])*(Line2[3]-(Line2[0]*x_new)-(Line2[2]*z_old))
     z_new=(1/Line3[2])*(Line3[3]-(Line3[1]*y_new)-(Line3[0]*x_new))
-    if abs(x_old-x_new) <=0.001 and abs(y_old-y_new) <=0.001 and abs(z_old-z_new) <=0.001:
+    if abs(x_old-x_new) <=ApproxVal and abs(y_old-y_new) <=ApproxVal and abs(z_old-z_new) <=ApproxVal:
         break
+
+calc.append([x_new, y_new, z_new])
+PrintQuestion=str(input("Would you like to Print the value of x,y,z at Every Iteration? (Y/n): "))
+if PrintQuestion=='Y' or PrintQuestion=='y':
+    for i in calc:    
+        print(f'{i[0]}, {i[1]}, {i[2]}')
+    
 # Result
-print('''
---------------------------------------''')
+print('--------------------------------------')
 print("The Value of x is: ",x_new)
 print("The Value of y is: ",y_new)
 print("The Value of z is: ",z_new)
